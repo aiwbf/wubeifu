@@ -21,6 +21,20 @@ python3 -m http.server 8000
 
 浏览器打开 `http://localhost:8000`。
 
+### 方式三：无 Python 时的备用方案
+
+```bash
+npx http-server -p 3000
+```
+
+或：
+
+```bash
+npx serve -l 3000
+```
+
+> 运行服务器前请确认工作目录是仓库根目录，以确保 `/` 返回 `index.html`。
+
 ## 操作说明
 
 - 左右方向键 / A、D：移动
