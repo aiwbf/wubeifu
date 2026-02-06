@@ -1,0 +1,70 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft Yahei", sans-serif;
+  background: #f5f6fa;
+  color: #1e1f24;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.game-shell {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(20, 20, 30, 0.12);
+  max-width: 1040px;
+  width: min(1040px, 95vw);
+}
+
+header h1 {
+  margin: 0 0 6px;
+}
+
+header p {
+  margin: 0 0 16px;
+  color: #5b5e68;
+}
+
+.hud {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+canvas {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #d7d9e0;
+  background: linear-gradient(180deg, #9fd4ff 0%, #c4e5ff 60%, #8bd27e 60%, #7abf6b 100%);
+  display: block;
+}
+
+.controls {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  border: none;
+  background: #e63946;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(230, 57, 70, 0.3);
+}

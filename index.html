@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>超级马里奥 · 迷你版</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header>
+        <h1>超级马里奥 · 迷你版</h1>
+        <p>方向键移动，空格跳跃。收集金币并到达旗杆。</p>
+      </header>
+      <section class="hud">
+        <div>金币：<span id="coin-count">0</span></div>
+        <div>状态：<span id="status">冒险中</span></div>
+      </section>
+      <canvas id="game" width="960" height="540" aria-label="马里奥小游戏"></canvas>
+      <section class="controls">
+        <button id="restart" type="button">重新开始</button>
+      </section>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>
