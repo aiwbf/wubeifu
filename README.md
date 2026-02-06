@@ -4,19 +4,22 @@
 
 ## 本地运行
 
-### 方式一：Python 简易服务器
+### 方式一：Node 预览服务器（推荐）
+
+```bash
+npm install
+npm run dev
+```
+
+默认端口为 `3000`，浏览器打开 `http://localhost:3000`。
+
+### 方式二：Python 简易服务器
 
 ```bash
 python3 -m http.server 8000
 ```
 
-### 方式二：NPM 脚本
-
-```bash
-npm run dev
-```
-
-然后在浏览器打开 `http://localhost:8000`。
+浏览器打开 `http://localhost:8000`。
 
 ## 操作说明
 
