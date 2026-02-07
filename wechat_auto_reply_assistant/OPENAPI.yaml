@@ -1,0 +1,91 @@
+﻿openapi: 3.0.3
+info:
+  title: WeChat Auto Reply Assistant (Compliant)
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8080
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+paths:
+  /health:
+    get:
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: OK
+  /api/v1/messages/inbound:
+    post:
+      summary: Receive inbound message and return auto-reply or handoff decision
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [conversation_id, user_id, channel, message_text]
+              properties:
+                conversation_id: { type: string }
+                user_id: { type: string }
+                channel: { type: string }
+                message_text: { type: string }
+      responses:
+        '200':
+          description: Decision returned
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/conversations/{conversation_id}/takeover:
+    post:
+      summary: Switch conversation to manual mode
+      parameters:
+        - name: conversation_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Updated }
+  /api/v1/conversations/{conversation_id}/release:
+    post:
+      summary: Switch conversation back to auto mode
+      parameters:
+        - name: conversation_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Updated }
+  /api/v1/audit:
+    get:
+      summary: Query audit logs
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50 }
+      responses:
+        '200': { description: Audit list }
+  /api/v1/metrics:
+    get:
+      summary: Runtime metrics
+      responses:
+        '200': { description: Metrics }

@@ -1,0 +1,1 @@
+﻿python scripts/lint.py
