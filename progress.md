@@ -15,3 +15,42 @@
 - JS syntax check: node --check src/main.js passed.
 - Playwright skill client invocation attempted multiple times but browser binary download stalled in this environment; dependency and lock issues were diagnosed and recorded.
 - Next suggestion: once browser download is available, rerun $WEB_GAME_CLIENT with gameplay action bursts and review generated screenshots/state JSON.
+- Iteration update (2026-02-08): rebuilt scene atmosphere and roadside environment for stronger realism (new sky gradient/cloud haze, richer ground/shoulder/asphalt procedural textures, road wear layer, denser guardrail/marker/lamp details, tree rows, utility poles, mountain/city depth layers, drifting cloud planes, and sun halo).
+- Integrated new environment data into update loop: moving/recycling trees and utility poles, cloud drift animation, and texture scrolling for ground/road wear to keep motion coherent at speed.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180` passed.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180 -TryConsoleCheck` HTTP passed; console check still warns in restricted environment.
+- Automation note: Playwright client command was retried, but this shell currently has no `node` executable in PATH (`node` command not recognized), so screenshot/state automation could not run in this iteration.
+- Next suggestion: install/restore Node.js in PATH, then rerun `$WEB_GAME_CLIENT` and inspect captured screenshots plus `render_game_to_text` payload for visual QA.
+- Iteration update (2026-02-08): upgraded scene realism with cinematic weather + atmosphere layer (dynamic day/night light rig, moon light, adaptive fog range, exposure tuning).
+- Added weather simulation primitives: rain particle field with wind drift and recycle logic, plus near-ground mist sheets with motion and density changes.
+- Added wet-road shading pipeline in `buildEnvironment`: explicit road/roadSheen/roadWear/roadReflection materials now exposed and driven by weather in `updateEnvironment`.
+- Added stronger car lighting and camera feel: dual spotlight headlights linked to speed/weather/time-of-day, and adaptive chase camera with speed FOV + subtle shake.
+- Extended `render_game_to_text` output with atmosphere telemetry (`daylight`, `rainStrength`, `wetness`, `fogNear`, `fogFar`) for deterministic checks.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180` passed.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180 -TryConsoleCheck` HTTP passed; headless console check still warns in this restricted environment.
+- Playwright run attempt: `node $WEB_GAME_CLIENT ...` failed because `node` is not installed in PATH, so screenshot/state automation remains blocked.
+- TODO for next iteration: restore Node.js runtime, run `$WEB_GAME_CLIENT` with action bursts, inspect screenshots, and validate no runtime console errors.
+- Iteration update (2026-02-08): upgraded rendering to module-based Three.js photoreal-ish pipeline with ACES/sRGB physically-correct lighting flags, PMREM environment fallback, optional HDR probe loading, and postFX (SSAO + subtle bloom).
+- Added quality presets (keys `1/2/3`) wired to shadow map size, AO/Bloom enable/strength, fog scale, pixel ratio, instanced density, and rain active count.
+- Reworked highway surfacing: procedural asphalt base/roughness/normal maps, worn lane-marking overlay texture, shoulder gravel transition texture, and improved ground chroma variation.
+- Added `InstancedMesh` roadside systems for guardrails, street lamps, and trees, with density scaling and runtime matrix updates.
+- Added deterministic render mode toggle (`R`) with fixed seed/time step and fixed camera reset; added PNG export key (`P`) and render telemetry HUD (`FPS | speed | quality | deterministic`).
+- Added optional asset overrides (`assets/asphalt_basecolor.jpg`, `assets/asphalt_normal.jpg`, `assets/asphalt_roughness.jpg`) and documented naming in `assets/README.md`.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180` passed.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180 -TryConsoleCheck` HTTP passed; console check warning persists in restricted environment.
+- JS syntax check attempt: `node --check src/main.js` could not run because `node` is not available in PATH in this environment.
+- Next suggestion: once Node/browser automation is available, run Playwright screenshot capture with deterministic mode enabled (`R`) and compare exported PNG baselines across quality levels.
+- Final validation rerun (2026-02-08): after key-hint/status text update, `scripts/smoke.ps1` and `scripts/smoke.ps1 -TryConsoleCheck` still pass HTTP; console check warning remains environment-limited.
+- Hotfix (2026-02-08): added runtime compatibility fallback for post-processing in `src/main.js` (initPostFX try/catch, guarded quality preset writes, render-time composer fallback to direct renderer), so unsupported SSAO/Bloom no longer freezes animation loop.
+- Tweaked default quality preset to Q1 to reduce startup GPU load; users can still switch with `1/2/3` keys.
+- Stability guard: `updateHud` now null-checks pause button element before writing label text.
+- Verification run after hotfix: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180` passed.
+- Verification run after hotfix: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180 -TryConsoleCheck` HTTP passed; headless console check still warns in this restricted environment.
+- Bugfix (2026-02-08): fixed "Start button no response" startup failure.
+- Root cause: browser failed to execute `src/main.js` because Three.js examples modules imported bare specifier `three` and no import map was provided (`Uncaught TypeError: Failed to resolve module specifier "three"`).
+- Fix: added an import map in `index.html` mapping `three` -> `https://unpkg.com/three@0.160.1/build/three.module.js` so `examples/jsm/*` dependencies resolve consistently.
+- Kept version pinning stable by using non-`?module` Three.js example imports in `src/main.js`.
+- Validation: headless Chrome runtime logs no longer show module-resolution startup errors.
+- End-to-end probe: temporary same-origin iframe auto-clicked `#startButton`; `render_game_to_text` reported `MODE:running`.
+- Verification run: `powershell -ExecutionPolicy Bypass -File .\scripts\smoke.ps1 -Port 4180` passed.
+- Next suggestion: manual browser check on target machine to confirm visible Start/Pause flow and lane controls with real pointer/touch input.

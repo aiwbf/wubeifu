@@ -1,0 +1,212 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Highway Escape 3D</title>
+  <style>
+    :root {
+      --panel: rgba(20, 27, 36, 0.78);
+      --line: rgba(255, 255, 255, 0.24);
+      --text: #eff4ff;
+      --muted: #bfd0ea;
+      --score: #7bd2ff;
+      --difficulty: #95f7c4;
+      --accent: #8fd1ff;
+      --danger: #ff8f8f;
+    }
+
+    * {
+      box-sizing: border-box;
+      touch-action: manipulation;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--text);
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(140% 100% at 50% 0%, #89acd5 0%, #375070 42%, #152136 100%);
+    }
+
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #hud {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(4px);
+    }
+
+    .hud-block {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .score {
+      color: var(--score);
+    }
+
+    .difficulty {
+      color: var(--difficulty);
+    }
+
+    .button {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+    }
+
+    .button:active {
+      transform: translateY(1px);
+    }
+
+    #startButton {
+      background: rgba(143, 209, 255, 0.2);
+    }
+
+    #statusPanel {
+      position: absolute;
+      z-index: 6;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(92vw, 540px);
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px 18px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+
+    #statusTitle {
+      margin: 0 0 10px 0;
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    #statusText {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    #mobileControls {
+      position: absolute;
+      z-index: 6;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .touch-group {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .touch-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(19, 26, 37, 0.6);
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(3px);
+    }
+
+    @media (max-width: 900px), (pointer: coarse) {
+      #hud {
+        flex-wrap: wrap;
+      }
+
+      #mobileControls {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="hud">
+      <div class="hud-block">
+        <span class="label">Score</span>
+        <span id="scoreValue" class="value score">0</span>
+      </div>
+      <div class="hud-block">
+        <span class="label">Best</span>
+        <span id="bestValue" class="value">0</span>
+      </div>
+      <div class="hud-block">
+        <span class="label">Difficulty</span>
+        <span id="difficultyValue" class="value difficulty">1.0x</span>
+      </div>
+      <div class="hud-block">
+        <button id="startButton" class="button" type="button">Start</button>
+        <button id="pauseButton" class="button" type="button">Pause</button>
+      </div>
+    </div>
+
+    <div id="statusPanel">
+      <h1 id="statusTitle">Highway Escape 3D</h1>
+      <p id="statusText">Press Start. Use A / D or Left / Right to change lane and avoid road blocks.</p>
+    </div>
+
+    <div id="mobileControls">
+      <div class="touch-group">
+        <button id="leftButton" class="touch-btn" type="button">&#9664;</button>
+        <button id="rightButton" class="touch-btn" type="button">&#9654;</button>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="https://unpkg.com/three@0.160.1/build/three.min.js"></script>
+  <script defer src="./src/main.js"></script>
+</body>
+</html>
