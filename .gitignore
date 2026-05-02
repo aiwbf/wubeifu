@@ -1,0 +1,5 @@
+.chrome-profile/
+.edge-profile/
+server.log
+server.err
+qa-*.png
